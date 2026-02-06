@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>군수사령부 공지게시판</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <h1>군수사령부 공지게시판</h1>
+    </header>
+
+    <main class="container">
+        <section class="announcement-form">
+            <h2>새 공지 작성</h2>
+            <div class="form-group">
+                <label for="announcement-title">공지 제목</label>
+                <input type="text" id="announcement-title" placeholder="제목을 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="announcement-content">공지 내용</label>
+                <textarea id="announcement-content" rows="5" placeholder="내용을 입력하세요"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="announcement-author">작성자</label>
+                <input type="text" id="announcement-author" placeholder="작성자 이름을 입력하세요">
+            </div>
+            <button id="register-button">등록</button>
+        </section>
+
+        <section class="board-controls">
+            <div class="search-area">
+                <input type="text" id="search-input" placeholder="제목으로 검색..." class="search-input">
+            </div>
+            <div class="total-count">
+                총 공지 수: <span id="total-announcements-count">0</span>건
+            </div>
+        </section>
+
+        <section class="announcement-list">
+            <h2>등록된 공지</h2>
+            <div id="announcements-container">
+                <!-- Announcements will be loaded here by app.js -->
+                <p>등록된 공지가 없습니다.</p>
+            </div>
+        </section>
+
+        <section id="announcement-detail-view" class="announcement-detail-view">
+            <h2>공지 상세 보기</h2>
+            <div id="detail-content">
+                <p>목록에서 공지를 선택하여 자세한 내용을 확인하세요.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
