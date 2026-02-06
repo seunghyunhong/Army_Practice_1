@@ -1,0 +1,271 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4; /* Light grey background for the whole page */
+    color: #333; /* Default text color */
+}
+
+.navbar {
+    background-color: #1B2A4A; /* 군(軍) 느낌의 네이비 색 */
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for the header */
+}
+
+.navbar h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 25px auto; /* Slightly more margin for better spacing */
+    padding: 0; /* Remove padding from container as cards inside will have it */
+}
+
+.announcement-form, .announcement-list {
+    margin-bottom: 30px;
+    background-color: #ffffff; /* White background for card boxes */
+    padding: 25px; /* Padding inside the card box */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for card effect */
+    border: 1px solid #e0e0e0; /* Light border for definition */
+}
+
+.announcement-form h2, .announcement-list h2 {
+    color: #1B2A4A; /* Navy color for section titles */
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0; /* Remove default top margin */
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px; /* Slightly more space for labels */
+    font-weight: bold;
+    color: #444;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px; /* Increased padding for input fields */
+    border: 1px solid #ccc; /* Slightly darker border for inputs */
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding in width */
+    font-size: 16px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px; /* Minimum height for textarea */
+}
+
+button {
+    background-color: #1B2A4A; /* Navy button */
+    color: white;
+    padding: 12px 25px; /* Increased padding for buttons */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+button:hover {
+    background-color: #2a3d60; /* Darker navy on hover */
+}
+
+#announcements-container {
+    margin-top: 20px; /* Space between title and first announcement */
+}
+
+#announcements-container p {
+    color: #666;
+    text-align: center;
+    font-style: italic;
+    padding: 15px; /* Padding for the "no announcements" message */
+}
+
+/* Card styling for individual announcement items */
+.announcement-item {
+    background-color: #ffffff; /* White background for each card */
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Subtle shadow for items */
+    border: 1px solid #e0e0e0; /* Light border */
+    transition: transform 0.2s ease-in-out; /* Slight hover effect for items */
+}
+
+.announcement-item:hover {
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.announcement-item h3 {
+    margin-top: 0;
+    color: #1B2A4A; /* Navy for announcement titles */
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.announcement-item .author {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 10px;
+    display: block; /* Ensure it takes its own line */
+}
+
+.announcement-item .content {
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+/* Delete Button Style */
+.delete-button {
+    background-color: #dc3545; /* Red */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px; /* Space from other elements */
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+.delete-button:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Edit Button Style (similar to view, but could be distinct if needed) */
+.edit-button {
+    background-color: #3f51b5; /* A slightly lighter, more visible blue for edit */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px; /* Space from other elements */
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+.edit-button:hover {
+    background-color: #303f9f; /* Darker blue on hover */
+}
+
+/* Container for action buttons in announcement items */
+.announcement-actions {
+    margin-top: 15px;
+    text-align: right; /* Align buttons to the right */
+}
+
+.announcement-actions button {
+    margin-left: 8px; /* Space between action buttons */
+    padding: 8px 15px; /* Adjust padding for action buttons */
+    font-size: 14px; /* Adjust font size for action buttons */
+}
+
+/* Board Controls (Search and Total Count) Styling */
+.board-controls {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space out items */
+    align-items: center; /* Vertically align items */
+    margin-bottom: 20px; /* Space below this section */
+    padding: 15px 25px; /* Padding for the controls section */
+    background-color: #f9f9f9; /* Light background for the controls */
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Very subtle shadow */
+}
+
+.search-area {
+    flex-grow: 1; /* Allow search input to take available space */
+    margin-right: 15px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #c0c0c0; /* Slightly lighter border */
+    border-radius: 5px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: #888;
+}
+
+.search-input:focus {
+    border-color: #1B2A4A; /* Navy border on focus */
+    outline: none; /* Remove default outline */
+}
+
+.total-count {
+    font-size: 1em;
+    font-weight: bold;
+    color: #1B2A4A; /* Navy color for the count */
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.total-count span {
+    font-size: 1.1em; /* Slightly larger number */
+    color: #0d47a1; /* A bit darker blue for contrast */
+}
+
+/* Announcement Detail View Styling */
+.announcement-detail-view {
+    margin-top: 30px; /* Space from the announcement list */
+    background-color: #ffffff; /* White background for the detail card */
+    padding: 25px; /* Padding inside the detail card */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: 1px solid #e0e0e0; /* Light border */
+}
+
+.announcement-detail-view h2 {
+    color: #1B2A4A; /* Navy color for section title */
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+#detail-content h3 {
+    color: #1B2A4A; /* Navy for detail title */
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+#detail-content .author,
+#detail-content .date {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+#detail-content .content {
+    line-height: 1.8;
+    color: #333;
+    margin-top: 20px;
+    white-space: pre-wrap; /* Preserve line breaks in content */
+}
+
+#detail-content p {
+    color: #666;
+    text-align: center;
+    font-style: italic;
+}
