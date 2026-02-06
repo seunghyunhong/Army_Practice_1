@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>군수사령부 공지게시판 서비스</title>
+    <style>
+        /* CSS Variables for easy theme management */
+        :root {
+            --navy-color: #1B2A4A;
+            --gold-color: #C5A55A;
+            --white-color: #FFFFFF;
+            --light-grey-color: #f4f4f4;
+        }
+
+        /* Global Styles & Reset */
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed; /* Fixed at the top */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--navy-color);
+            color: var(--white-color);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between; /* Space between logo and nav */
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000; /* Ensure header stays on top */
+        }
+
+        .header .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--white-color);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .header .nav-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex; /* Horizontal menu items */
+        }
+
+        .header .nav-menu li {
+            margin-left: 30px;
+        }
+
+        .header .nav-menu a {
+            color: var(--white-color);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .header .nav-menu a:hover {
+            color: var(--gold-color); /* Gold on hover */
+        }
+
+        /* Hero Section Styles */
+        .hero-section {
+            background-color: var(--navy-color);
+            color: var(--white-color);
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            text-align: center;
+            padding: 0 20px; /* Padding for small screens */
+            /* Add padding-top to account for fixed header height */
+            padding-top: 80px; /* Adjust based on header height */
+            box-sizing: border-box;
+        }
+
+        .hero-section h1 {
+            font-size: 68px; /* Large font for main title */
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+
+        .hero-section p {
+            font-size: 26px; /* Subtitle font size */
+            margin-bottom: 40px;
+            max-width: 700px;
+            opacity: 0.9;
+        }
+
+        .hero-section .button-link {
+            display: inline-block;
+            background-color: var(--gold-color); /* Gold button */
+            color: var(--navy-color); /* Navy text for contrast */
+            padding: 18px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-section .button-link:hover {
+            background-color: #d8b76c; /* Slightly darker gold on hover */
+            transform: translateY(-3px); /* Subtle lift effect */
+        }
+
+        /* Features Section Styles */
+        .features-section {
+            background-color: var(--light-grey-color); /* Light gray background */
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .features-section h2 {
+            font-size: 44px;
+            color: var(--navy-color);
+            margin-bottom: 60px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .features-section h2::after { /* Underline effect for title */
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background-color: var(--gold-color);
+            border-radius: 5px;
+        }
+
+        .feature-cards-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+            justify-content: center; /* Center cards */
+            gap: 30px; /* Space between cards */
+            max-width: 1200px;
+            margin: 0 auto; /* Center the container */
+        }
+
+        .feature-card {
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(25% - 30px); /* Four cards per row, accounting for gap */
+            min-width: 250px; /* Minimum width for cards */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px); /* Lift effect on hover */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card .icon {
+            font-size: 60px; /* Large icon size */
+            margin-bottom: 20px;
+            color: var(--gold-color); /* Gold icon color */
+            display: block; /* Ensure icon is on its own line */
+        }
+
+        .feature-card h3 {
+            font-size: 26px;
+            color: var(--navy-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            font-size: 17px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .feature-card {
+                flex: 1 1 calc(50% - 30px); /* Two cards per row on medium screens */
+            }
+            .header {
+                padding: 15px 20px;
+            }
+            .header .logo {
+                font-size: 24px;
+            }
+            .header .nav-menu li {
+                margin-left: 20px;
+            }
+            .header .nav-menu a {
+                font-size: 16px;
+            }
+            .hero-section h1 {
+                font-size: 52px;
+            }
+            .hero-section p {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .feature-card {
+                flex: 1 1 100%; /* One card per row on small screens */
+            }
+            .header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .header .nav-menu ul {
+                margin-top: 10px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .header .nav-menu li {
+                margin: 5px 0;
+            }
+            .hero-section h1 {
+                font-size: 40px;
+            }
+            .hero-section p {
+                font-size: 18px;
+            }
+            .hero-section .button-link {
+                padding: 15px 30px;
+                font-size: 18px;
+            }
+            .features-section h2 {
+                font-size: 36px;
+                margin-bottom: 40px;
+            }
+            .how-to-use-section h2 {
+                font-size: 36px;
+                margin-bottom: 40px;
+            }
+            .step-item {
+                flex-direction: column; /* Stack items vertically on small screens */
+                align-items: center;
+                text-align: center;
+            }
+            .step-item .step-number {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Recommendations Section Styles */
+        .recommendations-section {
+            background-color: var(--navy-color); /* Navy background */
+            color: var(--white-color); /* White text */
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .recommendations-section h2 {
+            font-size: 44px;
+            color: var(--white-color); /* White title */
+            margin-bottom: 60px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .recommendations-section h2::after { /* Gold underline effect for title */
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background-color: var(--gold-color);
+            border-radius: 5px;
+        }
+
+        .recommendation-items-container {
+            display: grid; /* Use grid for layout */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+            gap: 30px; /* Space between items */
+            max-width: 1200px;
+            margin: 0 auto; /* Center the container */
+        }
+
+        .recommendation-item {
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .recommendation-item:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.15); /* Slightly brighter on hover */
+        }
+
+        .recommendation-item .icon {
+            font-size: 50px; /* Icon size */
+            margin-bottom: 20px;
+            color: var(--gold-color); /* Gold icon color */
+            display: block;
+        }
+
+        .recommendation-item h3 {
+            font-size: 24px;
+            color: var(--white-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .recommendation-item p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8); /* Slightly faded white for description */
+            line-height: 1.6;
+        }
+
+        /* Responsive adjustments for recommendations */
+        @media (max-width: 768px) {
+            .recommendations-section {
+                padding: 60px 20px;
+            }
+            .recommendations-section h2 {
+                font-size: 36px;
+                margin-bottom: 40px;
+            }
+        }
+
+        /* Quick Start Section Styles */
+        .quick-start-section {
+            background-color: var(--light-grey-color); /* Light gray background */
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .quick-start-section h2 {
+            font-size: 44px;
+            color: var(--navy-color);
+            margin-bottom: 60px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .quick-start-section h2::after { /* Underline effect for title */
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background-color: var(--gold-color);
+            border-radius: 5px;
+        }
+
+        .quick-start-steps-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px; /* Space between steps */
+            max-width: 1000px;
+            margin: 0 auto 50px auto; /* Center and add bottom margin */
+            position: relative;
+        }
+
+        .quick-start-steps-container::before { /* Connecting line */
+            content: '';
+            position: absolute;
+            top: 50px; /* Adjust to vertical center of steps */
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--gold-color);
+            z-index: 1; /* Behind step items */
+        }
+
+        .quick-start-step-item {
+            flex: 1; /* Distribute space equally */
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative; /* For z-index to overlay line */
+            z-index: 2; /* Above the connecting line */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 250px; /* Ensure consistent height */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .quick-start-step-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-big-number {
+            font-size: 60px;
+            font-weight: bold;
+            color: var(--gold-color);
+            margin-bottom: 15px;
+            line-height: 1; /* Remove extra line height */
+        }
+
+        .quick-start-step-item h3 {
+            font-size: 24px;
+            color: var(--navy-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .quick-start-step-item p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .button-link-gold { /* New style for the gold button outside hero */
+            display: inline-block;
+            background-color: var(--gold-color);
+            color: var(--navy-color);
+            padding: 18px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            margin-top: 30px; /* Space above the button */
+        }
+
+        .button-link-gold:hover {
+            background-color: #d8b76c;
+            transform: translateY(-3px);
+        }
+
+        /* Responsive adjustments for quick-start */
+        @media (max-width: 992px) {
+            .quick-start-steps-container {
+                flex-direction: column; /* Stack steps vertically */
+                gap: 20px;
+            }
+            .quick-start-steps-container::before { /* Hide horizontal line */
+                display: none;
+            }
+        }
+        @media (max-width: 768px) {
+            .quick-start-section h2 {
+                font-size: 36px;
+                margin-bottom: 40px;
+            }
+            .quick-start-step-item {
+                min-height: auto; /* Allow height to adjust */
+            }
+            .button-link-gold {
+                padding: 15px 30px;
+                font-size: 18px;
+            }
+        }
+
+        /* Footer Styles */
+        .main-footer {
+            background-color: var(--navy-color); /* Navy background */
+            color: var(--light-grey-color); /* Light grey text */
+            padding: 50px 20px; /* Ample padding */
+            text-align: center;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .main-footer p {
+            margin: 0;
+            padding: 5px 0;
+        }
+        /* Scroll Reveal Animation Styles */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-reveal.scroll-reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            display: none; /* Hidden by default on desktop */
+            font-size: 30px;
+            cursor: pointer;
+            color: var(--white-color);
+            z-index: 1001; /* Ensure it's above the header */
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-wrap: wrap; /* Allow items to wrap */
+                justify-content: space-between; /* Space logo and hamburger */
+                padding: 15px 20px; /* Adjust padding for mobile header */
+            }
+
+            .header .logo {
+                margin-right: auto; /* Push logo to left */
+            }
+
+            .header .nav-menu {
+                width: 100%; /* Take full width */
+                max-height: 0; /* Hide menu by default */
+                overflow: hidden;
+                transition: max-height 0.3s ease-out;
+                flex-basis: 100%; /* Occupy full width below logo/hamburger */
+            }
+
+            .header .nav-menu.active {
+                max-height: 250px; /* Adjust to fit menu items dynamically */
+            }
+
+            .header .nav-menu ul {
+                flex-direction: column; /* Stack menu items vertically */
+                width: 100%;
+                background-color: var(--navy-color); /* Same background as header */
+                padding: 10px 0;
+            }
+
+            .header .nav-menu li {
+                margin: 0;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .header .nav-menu li:last-child {
+                border-bottom: none;
+            }
+
+            .header .nav-menu a {
+                display: block; /* Make links full width of li */
+                padding: 5px 20px;
+                text-align: center;
+            }
+
+            .hamburger-menu {
+                display: block; /* Show hamburger on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">군수사령부</a>
+        <div class="hamburger-menu">☰</div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="#features">주요기능</a></li>
+                <li><a href="#how-to-use">사용방법</a></li>
+                <li><a href="index.html">게시판 바로가기</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <h1>군수사령부 공지게시판</h1>
+        <p>공지사항을 체계적으로 등록·조회·관리하는 내부 서비스</p>
+        <a href="index.html" class="button-link">게시판 바로가기</a>
+    </section>
+
+    <section id="features" class="features-section scroll-reveal">
+        <h2>주요 기능</h2>
+        <div class="feature-cards-container">
+            <div class="feature-card">
+                <span class="icon">✏️</span>
+                <h3>공지 등록</h3>
+                <p>제목, 내용, 작성자를 입력하면 즉시 공지가 등록됩니다.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">📋</span>
+                <h3>목록 조회</h3>
+                <p>등록된 모든 공지를 최신순으로 한눈에 확인할 수 있습니다.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">🔄</span>
+                <h3>공지 수정</h3>
+                <p>내용이 변경되면 언제든 수정하고 이력이 기록됩니다.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">🗑️</span>
+                <h3>공지 삭제</h3>
+                <p>불필요한 공지는 확인 후 안전하게 삭제할 수 있습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-to-use" class="how-to-use-section scroll-reveal">
+        <h2>사용 방법</h2>
+        <div class="how-to-use-steps-container">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div>
+                    <h3>공지 등록하기</h3>
+                    <p>메인 페이지 상단의 입력 칸에 공지 제목, 내용, 작성자를 입력하고 '등록' 버튼을 눌러 새로운 공지사항을 게시합니다.</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div>
+                    <h3>공지 목록 조회하기</h3>
+                    <p>등록된 모든 공지사항은 최신순으로 목록에 표시됩니다. 검색창에 제목을 입력하여 원하는 공지를 빠르게 찾을 수 있습니다.</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div>
+                    <h3>공지 상세 내용 확인</h3>
+                    <p>목록에서 특정 공지의 '보기' 버튼을 클릭하면, 해당 공지의 전체 제목, 작성자, 등록일시 및 상세 내용을 확인할 수 있습니다.</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <div>
+                    <h3>공지 수정하기</h3>
+                    <p>목록의 '수정' 버튼을 누르면 해당 공지 내용이 입력창에 불러와집니다. 내용을 수정 후 '수정 완료' 버튼을 눌러 변경사항을 저장합니다.</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">5</div>
+                <div>
+                    <h3>공지 삭제하기</h3>
+                    <p>더 이상 필요 없는 공지는 '삭제' 버튼을 클릭하여 제거할 수 있습니다. 삭제 전에 확인 메시지가 표시되어 실수 방지합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="recommendations" class="recommendations-section scroll-reveal">
+        <h2>이런 업무에 활용할 수 있습니다</h2>
+        <div class="recommendation-items-container">
+            <div class="recommendation-item">
+                <span class="icon">🔔</span>
+                <h3>부대 공지사항 전파</h3>
+                <p>구두 전달 대신 기록으로 남기고, 언제든 다시 확인</p>
+            </div>
+            <div class="recommendation-item">
+                <span class="icon">📦</span>
+                <h3>보급 일정 및 변경사항 안내</h3>
+                <p>보급 관련 공지를 체계적으로 등록하고 이력 관리</p>
+            </div>
+            <div class="recommendation-item">
+                <span class="icon">🔧</span>
+                <h3>정비 점검 계획 공유</h3>
+                <p>정비 일정과 변경 내역을 한 곳에서 관리</p>
+            </div>
+            <div class="recommendation-item">
+                <span class="icon">📚</span>
+                <h3>교육·훈련 일정 게시</h3>
+                <p>교육 공지를 등록하고 검색으로 빠르게 찾기</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="quick-start" class="quick-start-section scroll-reveal">
+        <h2>3단계로 바로 시작하세요</h2>
+        <div class="quick-start-steps-container">
+            <div class="quick-start-step-item">
+                <div class="step-big-number">1</div>
+                <h3>Step 1️⃣ 게시판 접속</h3>
+                <p>링크를 클릭하면 바로 게시판에 접속됩니다.</p>
+            </div>
+            <div class="quick-start-step-item">
+                <div class="step-big-number">2</div>
+                <h3>Step 2️⃣ 공지 작성</h3>
+                <p>제목, 내용, 작성자를 입력하고 등록 버튼만 누르면 끝.</p>
+            </div>
+            <div class="quick-start-step-item">
+                <div class="step-big-number">3</div>
+                <h3>Step 3️⃣ 조회 및 관리</h3>
+                <p>등록된 공지를 검색하고, 수정·삭제까지 한 화면에서.</p>
+            </div>
+        </div>
+        <a href="index.html" class="button-link-gold">게시판 바로가기</a>
+    </section>
+
+    <footer id="main-footer" class="main-footer scroll-reveal">
+        <p>군수사령부 공지게시판</p>
+        <p>담당: 군수사령부 정보화담당관실</p>
+        <p>문의: 내선 1234</p>
+        <p>&copy; 2025 군수사령부. 내부 업무용 서비스입니다.</p>
+    </footer>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        // 1. Smooth Scrolling for navigation links
+        document.querySelectorAll('.nav-menu a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Close mobile menu after clicking a link
+                const navMenu = document.querySelector('.nav-menu');
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+        // Handle "게시판 바로가기" buttons
+        document.querySelectorAll('a.button-link, a.button-link-gold').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === 'index.html') {
+                    // Allow default navigation for external link
+                } else {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+
+        // 2. Intersection Observer for Scroll Animations
+        const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of element visible to trigger
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('scroll-reveal-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        scrollRevealElements.forEach(el => observer.observe(el));
+
+
+        // 3. Hamburger Menu Toggle for Mobile
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const navMenu = document.querySelector('.nav-menu');
+
+        if (hamburgerMenu && navMenu) {
+            hamburgerMenu.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
